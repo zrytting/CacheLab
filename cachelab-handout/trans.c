@@ -1,3 +1,6 @@
+//Zachary Rytting
+//ID: 109670318
+
 /* 
  * trans.c - Matrix transpose B = A^T
  *
@@ -22,6 +25,30 @@ int is_transpose(int M, int N, int A[N][M], int B[M][N]);
 char transpose_submit_desc[] = "Transpose submission";
 void transpose_submit(int M, int N, int A[N][M], int B[M][N])
 {
+    int i, j, row, col;
+    int blockSize = 16;
+    if (N == 32 && M == 32) {
+        blockSize = 8;  // 8x8 for 32x32 matrix
+    } else if (N == 64 && M == 64) {
+        blockSize = 4;  // 4x4 for 64x64 matrix
+    } else {
+        blockSize = 16; // Example block size for general case
+    }
+
+    for (col = 0; col < N; col += blockSize) {
+        for (row = 0; row < M; row += blockSize) {
+            for (i = col; i < col + blockSize && i < N; i++) {
+                for (j = row; j < row + blockSize && j < M; j++) {
+                    if (i != j || M != N) {
+                        B[j][i] = A[i][j];
+                    }
+                }
+                if (M == N && i < M && col == row) { // Diagonal elements for square matrices
+                    B[i][i] = A[i][i];
+                }
+            }
+        }
+    }
 }
 
 /* 

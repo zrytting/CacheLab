@@ -6,6 +6,7 @@
 #include <getopt.h>
 #include <unistd.h>
 #include <string.h>
+#include "cachelab.h"
 
 // Define the structure for a cache line
 typedef struct {
@@ -138,10 +139,10 @@ void process_trace_line(cache_t *cache, char operation, unsigned long address, i
     }
 }
 
-void printSummary(int hits, int misses, int evictions) {
-    
-    printf("hits:%d misses:%d evictions:%d\n", hits, misses, evictions);
-}
+//void printSummary(int hits, int misses, int evictions) {
+//    
+//    printf("hits:%d misses:%d evictions:%d\n", hits, misses, evictions);
+//}
 int main(int argc, char *argv[]) {
     int s, E, b;
     char *tracefile;
